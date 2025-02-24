@@ -1,10 +1,10 @@
-package it.sevenbits.sixthpractice;
+package it.sevenbits.courses.springbootexample;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SixthpracticeApplicationTests {
+class SpringbootexampleApplicationTests {
 
 	@Test
 	void contextLoads() {
