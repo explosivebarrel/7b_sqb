@@ -2,9 +2,7 @@ package it.sevenbits.courses.springbootexample.core.model.questions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.sevenbits.courses.springbootexample.core.model.answers.Answer;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
