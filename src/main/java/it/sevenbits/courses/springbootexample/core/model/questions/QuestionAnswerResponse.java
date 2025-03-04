@@ -21,4 +21,20 @@ public class QuestionAnswerResponse {
         this.totalScore = totalScore;
         this.questionScore = questionScore;
     }
+
+    public UUID getCorrectAnswerId() {
+        return correctAnswerId;
+    }
+
+    public UUID getNextQuestionId() {
+        return nextQuestionId;
+    }
+
+    public long getTotalScore() {
+        return totalScore;
+    }
+
+    public long getQuestionScore() {
+        return questionScore;
+    }
 }

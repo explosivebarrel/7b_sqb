@@ -12,4 +12,8 @@ public class QuestionIdResponse {
     public QuestionIdResponse(@JsonProperty("id") final UUID id) {
         this.id = id;
     }
+
+    public UUID getId() {
+        return id;
+    }
 }

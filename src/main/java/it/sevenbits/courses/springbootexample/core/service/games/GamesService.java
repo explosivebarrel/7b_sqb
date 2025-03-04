@@ -37,7 +37,8 @@ public class GamesService implements IGamesService {
     @Override
     public Game startNewGame(UUID questionSetId) {
         Game newGame = new Game(UUID.randomUUID(), questionSetsService.findById(questionSetId));
-        return save(newGame);
+        save(newGame);
+        return newGame;
     }
 
     @Override

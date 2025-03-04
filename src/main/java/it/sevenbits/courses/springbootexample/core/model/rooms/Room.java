@@ -55,4 +55,8 @@ public class Room {
     public UUID getCurrentGameId() {
         return currentGameId;
     }
+
+    public void setCurrentGameId(UUID currentGameId) {
+        this.currentGameId = currentGameId;
+    }
 }

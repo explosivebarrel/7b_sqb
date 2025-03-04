@@ -1,6 +1,8 @@
 package it.sevenbits.courses.springbootexample.core.model.games;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.sevenbits.courses.springbootexample.core.model.questions.Question;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
@@ -29,6 +31,7 @@ public class Game {
         return questions;
     }
 
+    @JsonIgnore
     public Iterator<UUID> getQuestionIterator() {
         return questionIterator;
     }

@@ -10,7 +10,6 @@ public abstract class QuestionSet {
     private UUID id;
     private String label;
     private String description;
-    public abstract List<UUID> getQuestionIDs();
 
     @JsonCreator
     public QuestionSet(@JsonProperty("id") final UUID id,
@@ -32,4 +31,6 @@ public abstract class QuestionSet {
     public String getDescription() {
         return description;
     }
+
+    public abstract List<UUID> getQuestionIDs();
 }

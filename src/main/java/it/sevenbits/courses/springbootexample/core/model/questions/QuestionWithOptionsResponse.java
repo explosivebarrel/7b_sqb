@@ -20,4 +20,17 @@ public class QuestionWithOptionsResponse {
         this.text = text;
         this.answerList = answerList;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    @JsonProperty("answers")
+    public List<Answer> getAnswerList() {
+        return answerList;
+    }
 }

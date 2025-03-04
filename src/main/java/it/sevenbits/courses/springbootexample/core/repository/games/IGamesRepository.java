@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface IGamesRepository {
     List<Game> getAll();
     Game findById(UUID id);
-    Game save(Game answer);
+    Game save(Game game);
 }

@@ -1,8 +1,10 @@
 package it.sevenbits.courses.springbootexample.core.model.questions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -37,16 +39,20 @@ public class Question {
         return id;
     }
 
+    @JsonIgnore
     public List<UUID> getIncorrectAnswerIDs() {
         return incorrectAnswerIDs;
     }
 
+    @JsonIgnore
     public UUID getCorrectAnswerID() {
         return correctAnswerID;
     }
 
+    @JsonProperty("answers")
     public List<UUID> getAllAnswerIDs() {
-        List<UUID> tmp = getIncorrectAnswerIDs();
+        List<UUID> tmp = new ArrayList<UUID>(getIncorrectAnswerIDs().size());
+        tmp.addAll(getIncorrectAnswerIDs());
         tmp.add(getCorrectAnswerID());
         return tmp;
     }
