@@ -9,8 +9,8 @@ public class QuestionAnswerRequest {
     private UUID answerId;
 
     @JsonCreator
-    public QuestionAnswerRequest(@JsonProperty("answerId") final UUID answerId) {
-        this.answerId = answerId;
+    public QuestionAnswerRequest(@JsonProperty("answerId") final String answerId) {
+        this.answerId = UUID.fromString(answerId);
     }
 
     public UUID getAnswerId() {

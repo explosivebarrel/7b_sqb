@@ -176,21 +176,35 @@ public class RoomsController {
             }
 
             if (questionAnswerRequest != null) {
+                System.out.println(questionAnswerRequest.getAnswerId());
+                System.out.println(qs.getCorrectAnswerID());
+                System.out.println(questionAnswerRequest.getAnswerId().equals(qs.getCorrectAnswerID()));
+
                 long scoreTotal = 0, scoreGain = 0;
-                if (questionAnswerRequest.getAnswerId() == qs.getCorrectAnswerID()) {
+                if (qs.getCorrectAnswerID().equals(questionAnswerRequest.getAnswerId())) {
                     scoreGain = 1;
                 }
                 scoreTotal += scoreGain;
 
-                ans = new QuestionAnswerResponse(qs.getCorrectAnswerID(), curGame.getQuestionIterator().next(), scoreTotal, scoreGain);
+                int nextIndex = curGame.getQuestions().getQuestionIDs().indexOf(qsId) + 1;
+                UUID nextQuestionId = null;
+                if (nextIndex < curGame.getQuestions().getQuestionIDs().size()) {
+                    nextQuestionId = curGame.getQuestions().getQuestionIDs().get(nextIndex);
+                }
+
+                ans = new QuestionAnswerResponse(qs.getCorrectAnswerID(), nextQuestionId, scoreTotal, scoreGain);
             } else {
-                throw new NullPointerException("No request body sent!");
+                throw new IllegalArgumentException("No request body sent!");
             }
 
+            System.out.println("Response assembled: " + ans);
+
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
-        } catch(IllegalArgumentException e) {
+        } catch(NullPointerException | IllegalArgumentException e) {
+            System.out.println(e.getCause() + "\n" + e.getMessage());
             return ResponseEntity.notFound().build();
         } catch(Exception e) {
+            System.out.println(e.getCause() + "\n" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

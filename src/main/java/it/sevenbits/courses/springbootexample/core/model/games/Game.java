@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.sevenbits.courses.springbootexample.core.model.questions.Question;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.UUID;
 
 public class Game {
@@ -20,7 +22,15 @@ public class Game {
                 @JsonProperty("questions") final QuestionSet questions) {
         this.id = id;
         this.questions = questions;
-        this.questionIterator = questions.getQuestionIDs().iterator();
+        initQuestionIterator();
+    }
+
+    private void initQuestionIterator() {
+        if (questions != null && questions.getQuestionIDs() != null) {
+            this.questionIterator = questions.getQuestionIDs().iterator();
+        } else {
+            this.questionIterator = Collections.emptyIterator();
+        }
     }
 
     public UUID getId() {
@@ -31,8 +41,10 @@ public class Game {
         return questions;
     }
 
-    @JsonIgnore
     public Iterator<UUID> getQuestionIterator() {
+        if (questionIterator == null) {
+            initQuestionIterator();
+        }
         return questionIterator;
     }
 }
