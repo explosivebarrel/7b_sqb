@@ -176,10 +176,6 @@ public class RoomsController {
             }
 
             if (questionAnswerRequest != null) {
-                System.out.println(questionAnswerRequest.getAnswerId());
-                System.out.println(qs.getCorrectAnswerID());
-                System.out.println(questionAnswerRequest.getAnswerId().equals(qs.getCorrectAnswerID()));
-
                 long scoreTotal = 0, scoreGain = 0;
                 if (qs.getCorrectAnswerID().equals(questionAnswerRequest.getAnswerId())) {
                     scoreGain = 1;
