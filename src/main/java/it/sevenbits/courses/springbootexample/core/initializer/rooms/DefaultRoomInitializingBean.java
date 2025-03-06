@@ -15,6 +15,7 @@ public class DefaultRoomInitializingBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        roomsService.save(new Room(UUID.fromString("00000000-0000-0000-0000-000000000000"), UUID.fromString("00000000-0000-0000-0000-000000000000"), "Default room", "", true));
+        // roomsService.save(new Room(UUID.fromString("00000000-0000-0000-0000-000000000000"), UUID.fromString("00000000-0000-0000-0000-000000000000"), "Default room", "", true));
+        roomsService.save(new Room("1", UUID.fromString("00000000-0000-0000-0000-000000000000"), "Default room", "", true));
     }
 }

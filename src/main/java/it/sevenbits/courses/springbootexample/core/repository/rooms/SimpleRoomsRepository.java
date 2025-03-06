@@ -7,7 +7,7 @@ import java.util.*;
 
 
 public class SimpleRoomsRepository implements IRoomsRepository {
-    private final Map<UUID, Room> roomMap = new HashMap<>();
+    private final Map<String, Room> roomMap = new HashMap<>();
 
     @Override
     public List<Room> getAll() {
@@ -15,7 +15,7 @@ public class SimpleRoomsRepository implements IRoomsRepository {
     }
 
     @Override
-    public Room findById(UUID id) {
+    public Room findById(String id) {
         return roomMap.get(id);
     }
 

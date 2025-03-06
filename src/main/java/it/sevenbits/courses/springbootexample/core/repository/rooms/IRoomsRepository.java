@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public interface IRoomsRepository {
     List<Room> getAll();
-    Room findById(UUID id);
+    // Room findById(UUID id);
+    Room findById(String id);
     Room save(Room answer);
 }

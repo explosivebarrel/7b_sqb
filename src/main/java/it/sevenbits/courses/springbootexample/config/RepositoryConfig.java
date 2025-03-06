@@ -12,14 +12,6 @@ import it.sevenbits.courses.springbootexample.core.repository.questionsets.IQues
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.SimpleQuestionSetsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.rooms.IRoomsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.rooms.SimpleRoomsRepository;
-import it.sevenbits.courses.springbootexample.core.service.games.GamesService;
-import it.sevenbits.courses.springbootexample.core.service.games.IGamesService;
-import it.sevenbits.courses.springbootexample.core.service.questions.IQuestionsService;
-import it.sevenbits.courses.springbootexample.core.service.questions.QuestionsService;
-import it.sevenbits.courses.springbootexample.core.service.questionsets.IQuestionSetsService;
-import it.sevenbits.courses.springbootexample.core.service.questionsets.QuestionSetsService;
-import it.sevenbits.courses.springbootexample.core.service.rooms.IRoomsService;
-import it.sevenbits.courses.springbootexample.core.service.rooms.RoomsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,34 +22,54 @@ import org.springframework.context.annotation.Configuration;
 public class RepositoryConfig {
 
     /**
-     * The method creates instance of books repository
-     * @return instance of the books repository
+     * The method creates instance of repository
+     * @return instance of the repository
      */
     @Bean
     public BooksRepository booksRepository() {
         return new SimpleBooksRepository();
     }
 
+    /**
+     * The method creates instance of repository
+     * @return instance of the repository
+     */
     @Bean
     public IAnswersRepository answersRepository() {
         return new SimpleAnswersRepository();
     }
 
+    /**
+     * The method creates instance of repository
+     * @return instance of the repository
+     */
     @Bean
     public IGamesRepository gamesRepository() {
         return new SimpleGamesRepository();
     }
 
+    /**
+     * The method creates instance of repository
+     * @return instance of the repository
+     */
     @Bean
     public IRoomsRepository roomsRepository() {
         return new SimpleRoomsRepository();
     }
 
+    /**
+     * The method creates instance of repository
+     * @return instance of the repository
+     */
     @Bean
     public IQuestionsRepository questionsRepository() {
         return new SimpleQuestionsRepository();
     }
 
+    /**
+     * The method creates instance of repository
+     * @return instance of the repository
+     */
     @Bean
     public IQuestionSetsRepository questionSetsRepository() {
         return new SimpleQuestionSetsRepository();

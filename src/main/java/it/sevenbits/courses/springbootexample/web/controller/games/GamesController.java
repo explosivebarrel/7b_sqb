@@ -14,15 +14,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 @Controller
 @RequestMapping("/games")
 public class GamesController {
-    private IGamesService gamesService;
+    private final IGamesService gamesService;
 
-    public GamesController(IGamesService gamesService) {
+    /**
+     *
+     * @param gamesService gamesService
+     */
+    public GamesController(final IGamesService gamesService) {
         this.gamesService = gamesService;
     }
 
+    /**
+     *
+     * @return return
+     */
     @GetMapping
     @ResponseBody
     public ResponseEntity<List<Game>> getAllGames() {
@@ -34,6 +45,11 @@ public class GamesController {
         }
     }
 
+    /**
+     *
+     * @param id id
+     * @return return
+     */
     @GetMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<Game> getGame(@PathVariable("id") final String id) {

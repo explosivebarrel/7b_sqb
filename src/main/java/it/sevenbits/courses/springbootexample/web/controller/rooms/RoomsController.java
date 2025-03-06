@@ -8,34 +8,52 @@ import it.sevenbits.courses.springbootexample.core.model.questions.QuestionAnswe
 import it.sevenbits.courses.springbootexample.core.model.questions.QuestionWithOptionsResponse;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
 import it.sevenbits.courses.springbootexample.core.model.rooms.Room;
-import it.sevenbits.courses.springbootexample.core.repository.answers.IAnswersRepository;
-import it.sevenbits.courses.springbootexample.core.repository.rooms.IRoomsRepository;
 import it.sevenbits.courses.springbootexample.core.service.answers.IAnswersService;
 import it.sevenbits.courses.springbootexample.core.service.games.IGamesService;
 import it.sevenbits.courses.springbootexample.core.service.questions.IQuestionsService;
-import it.sevenbits.courses.springbootexample.core.service.questions.QuestionsService;
 import it.sevenbits.courses.springbootexample.core.service.questionsets.IQuestionSetsService;
 import it.sevenbits.courses.springbootexample.core.service.rooms.IRoomsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 @Controller
 @RequestMapping("/rooms")
 public class RoomsController {
-    private IRoomsService roomsService;
-    private IGamesService gamesService;
-    private IQuestionsService questionsService;
-    private IQuestionSetsService questionSetsService;
-    private IAnswersService answersService;
+    private final IRoomsService roomsService;
+    private final IGamesService gamesService;
+    private final IQuestionsService questionsService;
+    private final IQuestionSetsService questionSetsService;
+    private final IAnswersService answersService;
 
-    public RoomsController(IRoomsService roomsService, IGamesService gamesService, IQuestionsService questionsService, IQuestionSetsService questionSetsService, IAnswersService answersService) {
+    /**
+     *
+     * @param roomsService roomsService
+     * @param gamesService gamesService
+     * @param questionsService questionsService
+     * @param questionSetsService questionSetsService
+     * @param answersService answersService
+     */
+    public RoomsController(final IRoomsService roomsService,
+                           final IGamesService gamesService,
+                           final IQuestionsService questionsService,
+                           final IQuestionSetsService questionSetsService,
+                           final IAnswersService answersService) {
         this.roomsService = roomsService;
         this.gamesService = gamesService;
         this.questionsService = questionsService;
@@ -43,6 +61,10 @@ public class RoomsController {
         this.answersService = answersService;
     }
 
+    /**
+     *
+     * @return return
+     */
     @GetMapping
     @ResponseBody
     public ResponseEntity<List<Room>> getAllRooms() {
@@ -54,24 +76,37 @@ public class RoomsController {
         }
     }
 
+    /**
+     *
+     * @param id id
+     * @return return
+     */
     @GetMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<Room> getRoom(@PathVariable("id") final String id) {
         try {
-            Room ans = roomsService.findById(UUID.fromString(id));
+            // Room ans = roomsService.findById(UUID.fromString(id));
+            Room ans = roomsService.findById(id);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     *
+     * @param id id
+     * @param questionSetId questionSetId
+     * @return return
+     */
     @PostMapping(value = "/{id}/game/start")
     @ResponseBody
     public ResponseEntity<QuestionWithOptionsResponse> startNewGameNGetQuestion(
             @PathVariable(name = "id") final String id,
             @RequestParam(name = "questionSetId", required = false) final String questionSetId) {
         try {
-            Room curRoom = roomsService.findById(UUID.fromString(id));
+            // Room curRoom = roomsService.findById(UUID.fromString(id));
+            Room curRoom = roomsService.findById(id);
             Game curGame;
 
             if (questionSetId != null) {
@@ -99,12 +134,17 @@ public class RoomsController {
         }
     }
 
+    /**
+     *
+     * @param id id
+     * @return return
+     */
     @GetMapping(value = "/{id}/game")
     @ResponseBody
-    public ResponseEntity<Game> getRoomsGame(
-            @PathVariable(name = "id") final String id) {
+    public ResponseEntity<Game> getRoomsGame(@PathVariable(name = "id") final String id) {
         try {
-            Room curRoom = roomsService.findById(UUID.fromString(id));
+            //Room curRoom = roomsService.findById(UUID.fromString(id));
+            Room curRoom = roomsService.findById(id);
 
             if (curRoom.getCurrentGameId() == null) {
                 throw new NullPointerException("No game currently running in " + id + " room");
@@ -120,13 +160,20 @@ public class RoomsController {
         }
     }
 
+    /**
+     *
+     * @param id id
+     * @param questionId questionId
+     * @return return
+     */
     @GetMapping(value = "/{id}/game/question/{questionId}")
     @ResponseBody
     public ResponseEntity<QuestionWithOptionsResponse> getRoomGamesQuestionById(
             @PathVariable(name = "id") final String id,
             @PathVariable(name = "questionId") final String questionId) {
         try {
-            Room curRoom = roomsService.findById(UUID.fromString(id));
+            // Room curRoom = roomsService.findById(UUID.fromString(id));
+            Room curRoom = roomsService.findById(id);
             Game curGame = gamesService.findById(curRoom.getCurrentGameId());
 
             UUID qsId = UUID.fromString(questionId);
@@ -147,21 +194,29 @@ public class RoomsController {
             QuestionWithOptionsResponse ans = new QuestionWithOptionsResponse(qs.getId(), qs.getText(), answs);
 
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
-        } catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     *
+     * @param id id
+     * @param questionId questionId
+     * @param questionAnswerRequest questionAnswerRequest
+     * @return return
+     */
     @PostMapping(value = "/{id}/game/question/{questionId}/answer")
     @ResponseBody
     public ResponseEntity<QuestionAnswerResponse> getRoomGamesQuestionsAnswerById(
             @PathVariable(name = "id") final String id,
             @PathVariable(name = "questionId") final String questionId,
-            @RequestBody QuestionAnswerRequest questionAnswerRequest) {
+            @RequestBody final QuestionAnswerRequest questionAnswerRequest) {
         try {
-            Room curRoom = roomsService.findById(UUID.fromString(id));
+            // Room curRoom = roomsService.findById(UUID.fromString(id));
+            Room curRoom = roomsService.findById(id);
             Game curGame = gamesService.findById(curRoom.getCurrentGameId());
 
             UUID qsId = UUID.fromString(questionId);
@@ -196,10 +251,10 @@ public class RoomsController {
             System.out.println("Response assembled: " + ans);
 
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
-        } catch(NullPointerException | IllegalArgumentException e) {
+        } catch (NullPointerException | IllegalArgumentException e) {
             System.out.println(e.getCause() + "\n" + e.getMessage());
             return ResponseEntity.notFound().build();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getCause() + "\n" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

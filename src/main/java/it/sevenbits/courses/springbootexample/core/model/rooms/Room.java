@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class Room {
-    private UUID id;
+    // private UUID id; // Should be UUID
+    private String id;
     private UUID ownerID;
     private List<UUID> participantsIDs;
     private String name;
@@ -16,7 +17,7 @@ public class Room {
     private UUID currentGameId;
 
     @JsonCreator
-    public Room(@JsonProperty("id") final UUID id,
+    public Room(@JsonProperty("id") final String id,
                 @JsonProperty("ownerid") final UUID ownerID,
                 @JsonProperty("name") final String name,
                 @JsonProperty("password") final String password,
@@ -28,7 +29,7 @@ public class Room {
         this.isPublic = isPublic;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

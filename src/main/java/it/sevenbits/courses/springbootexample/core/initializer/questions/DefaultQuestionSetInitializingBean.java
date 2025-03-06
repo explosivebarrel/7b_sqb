@@ -11,8 +11,13 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
+/**
+ *
+ */
 @Component
 public class DefaultQuestionSetInitializingBean implements InitializingBean {
     @Autowired
@@ -22,6 +27,10 @@ public class DefaultQuestionSetInitializingBean implements InitializingBean {
     @Autowired
     IQuestionsService questionsService;
 
+    /**
+     *
+     * @throws Exception ex
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         QuestionSet questionSet;
@@ -33,9 +42,16 @@ public class DefaultQuestionSetInitializingBean implements InitializingBean {
         answers1.add(new Answer("Answer 3"));
         answers1.add(new Answer("Answer 4"));
         question1 = new Question(
-                new ArrayList<UUID>(answers1.subList(1, 4).stream().map(Answer::getId).toList()),
-                answers1.get(0).getId(),
-                "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat?");
+            new ArrayList<UUID>(answers1.subList(1, 4).stream().map(Answer::getId).toList()),
+            answers1.get(0).getId(),
+            "Lorem ipsum dolor sit amet, " +
+                    "consectetuer adipiscing elit, " +
+                    "sed diam nonummy nibh euismod tincidunt " +
+                    "ut laoreet dolore magna aliquam erat " +
+                    "volutpat. Ut wisi enim ad minim veniam, " +
+                    "quis nostrud exerci tation ullamcorper " +
+                    "suscipit lobortis nisl ut aliquip ex ea " +
+                    "commodo consequat?");
 
         for (var a: answers1) {
             answersService.save(a);
