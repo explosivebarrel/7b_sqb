@@ -10,22 +10,24 @@ public class Answer {
     private UUID id;
     private String text;
 
+    public Answer(final String text) {
+        this.id = UUID.randomUUID();
+        this.text = text;
+    }
+
     @JsonCreator
-    public Answer(@JsonProperty("text") final String text) {
+    public Answer(@JsonProperty("answerId") final UUID id,
+                  @JsonProperty("answerText") final String text) {
         this.id = UUID.randomUUID();
         this.text = text;
     }
 
-    public Answer(final UUID id,
-                  final String text) {
-        this.id = UUID.randomUUID();
-        this.text = text;
-    }
-
+    @JsonProperty("answerId")
     public UUID getId() {
         return id;
     }
 
+    @JsonProperty("answerText")
     public String getText() {
         return text;
     }

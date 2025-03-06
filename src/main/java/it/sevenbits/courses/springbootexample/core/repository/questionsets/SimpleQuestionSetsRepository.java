@@ -1,26 +1,41 @@
 package it.sevenbits.courses.springbootexample.core.repository.questionsets;
 
-import it.sevenbits.courses.springbootexample.core.model.categories.Category;
-import it.sevenbits.courses.springbootexample.core.model.questions.Question;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
 
 import java.util.*;
 
+/**
+ *
+ */
 public class SimpleQuestionSetsRepository implements IQuestionSetsRepository {
     private final Map<UUID, QuestionSet> questionSetMap = new HashMap<>();
 
+    /**
+     *
+     * @return rt
+     */
     @Override
     public List<QuestionSet> getAll() {
         return new ArrayList<>(questionSetMap.values());
     }
 
+    /**
+     *
+     * @param id id
+     * @return rt
+     */
     @Override
-    public QuestionSet findById(UUID id) {
+    public QuestionSet findById(final UUID id) {
         return questionSetMap.get(id);
     }
 
+    /**
+     *
+     * @param question qs
+     * @return rt
+     */
     @Override
-    public QuestionSet save(QuestionSet question) {
+    public QuestionSet save(final QuestionSet question) {
         return questionSetMap.put(question.getId(), question);
     }
 }

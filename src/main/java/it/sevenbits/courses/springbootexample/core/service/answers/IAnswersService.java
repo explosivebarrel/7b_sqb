@@ -5,8 +5,27 @@ import it.sevenbits.courses.springbootexample.core.model.answers.Answer;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 public interface IAnswersService {
+    /**
+     *
+     * @return rt
+     */
     List<Answer> getAll();
-    Answer findById(UUID id);
-    Answer save(Answer answer);
+
+    /**
+     *
+     * @param id id
+     * @return rt
+     */
+    Answer findById(final UUID id);
+
+    /**
+     *
+     * @param answer a
+     * @return rt
+     */
+    Answer save(final Answer answer);
 }

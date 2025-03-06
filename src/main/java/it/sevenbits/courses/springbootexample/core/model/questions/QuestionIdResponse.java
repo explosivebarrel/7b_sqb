@@ -5,14 +5,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
+/**
+ *
+ */
 public class QuestionIdResponse {
     private final UUID id;
 
+    /**
+     *
+     * @param id id
+     */
     @JsonCreator
-    public QuestionIdResponse(@JsonProperty("id") final UUID id) {
+    public QuestionIdResponse(@JsonProperty("questionId") final UUID id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return rt
+     */
+    @JsonProperty("questionId")
     public UUID getId() {
         return id;
     }

@@ -2,10 +2,7 @@ package it.sevenbits.courses.springbootexample.web.controller.rooms;
 
 import it.sevenbits.courses.springbootexample.core.model.answers.Answer;
 import it.sevenbits.courses.springbootexample.core.model.games.Game;
-import it.sevenbits.courses.springbootexample.core.model.questions.Question;
-import it.sevenbits.courses.springbootexample.core.model.questions.QuestionAnswerRequest;
-import it.sevenbits.courses.springbootexample.core.model.questions.QuestionAnswerResponse;
-import it.sevenbits.courses.springbootexample.core.model.questions.QuestionWithOptionsResponse;
+import it.sevenbits.courses.springbootexample.core.model.questions.*;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
 import it.sevenbits.courses.springbootexample.core.model.rooms.Room;
 import it.sevenbits.courses.springbootexample.core.service.answers.IAnswersService;
@@ -101,7 +98,7 @@ public class RoomsController {
      */
     @PostMapping(value = "/{id}/game/start")
     @ResponseBody
-    public ResponseEntity<QuestionWithOptionsResponse> startNewGameNGetQuestion(
+    public ResponseEntity<QuestionIdResponse> startNewGameNGetQuestion(
             @PathVariable(name = "id") final String id,
             @RequestParam(name = "questionSetId", required = false) final String questionSetId) {
         try {
@@ -119,13 +116,7 @@ public class RoomsController {
             curRoom.setCurrentGameId(curGame.getId());
             roomsService.save(curRoom);
 
-            Question qs = questionsService.findById(curGame.getQuestionIterator().next());
-
-            List<Answer> answs = new ArrayList<>(qs.getAllAnswerIDs().size());
-            for (var a: qs.getAllAnswerIDs()) {
-                answs.add(answersService.findById(a));
-            }
-            QuestionWithOptionsResponse ans = new QuestionWithOptionsResponse(qs.getId(), qs.getText(), answs);
+            QuestionIdResponse ans = new QuestionIdResponse(curGame.getQuestions().getQuestionIDs().get(0));
 
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
         } catch (Exception e) {

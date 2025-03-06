@@ -13,23 +13,25 @@ public class QuestionWithOptionsResponse {
     private final List<Answer> answerList;
 
     @JsonCreator
-    public QuestionWithOptionsResponse(@JsonProperty("id") final UUID id,
-                                       @JsonProperty("text") final String text,
-                                       @JsonProperty("answers") final List<Answer> answerList) {
+    public QuestionWithOptionsResponse(@JsonProperty("questionId") final UUID id,
+                                       @JsonProperty("questionText") final String text,
+                                       @JsonProperty("answersList") final List<Answer> answerList) {
         this.id = id;
         this.text = text;
         this.answerList = answerList;
     }
 
+    @JsonProperty("questionId")
     public UUID getId() {
         return id;
     }
 
+    @JsonProperty("questionText")
     public String getText() {
         return text;
     }
 
-    @JsonProperty("answers")
+    @JsonProperty("answersList")
     public List<Answer> getAnswerList() {
         return answerList;
     }
