@@ -7,35 +7,66 @@ import it.sevenbits.courses.springbootexample.core.repository.questions.IQuestio
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 public class QuestionsService implements IQuestionsService {
     private final IQuestionsRepository questionsRepository;
 
-    public QuestionsService(IQuestionsRepository questionsRepository) {
+    /**
+     *
+     * @param questionsRepository qr
+     */
+    public QuestionsService(final IQuestionsRepository questionsRepository) {
         this.questionsRepository = questionsRepository;
     }
 
+    /**
+     *
+     * @return rt
+     */
     @Override
     public List<Question> getAll() {
         return questionsRepository.getAll();
     }
 
+    /**
+     *
+     * @param category ctg
+     * @return rt
+     */
     @Override
-    public List<Question> findByCategory(Category category) {
+    public List<Question> findByCategory(final Category category) {
         return questionsRepository.findByCategory(category);
     }
 
+    /**
+     *
+     * @param content ct
+     * @return rt
+     */
     @Override
-    public List<Question> findByText(String content) {
+    public List<Question> findByText(final String content) {
         return questionsRepository.findByText(content);
     }
 
+    /**
+     *
+     * @param id id
+     * @return rt
+     */
     @Override
-    public Question findById(UUID id) {
+    public Question findById(final UUID id) {
         return questionsRepository.findById(id);
     }
 
+    /**
+     *
+     * @param question qs
+     * @return rt
+     */
     @Override
-    public Question save(Question question) {
+    public Question save(final Question question) {
         return questionsRepository.save(question);
     }
 }

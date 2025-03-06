@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-public final class SevenQuizzesApplication {
-	private SevenQuizzesApplication() {}
-
+public class SevenQuizzesApplication {
 	/**
 	 *
 	 * @param args args
