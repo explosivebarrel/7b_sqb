@@ -52,18 +52,45 @@ public class DefaultQuestionSetInitializingBean implements InitializingBean {
                     "quis nostrud exerci tation ullamcorper " +
                     "suscipit lobortis nisl ut aliquip ex ea " +
                     "commodo consequat?");
-
         for (var a: answers1) {
             answersService.save(a);
         }
-
         questionsService.save(question1);
 
+        Question question2;
+        List<Answer> answers2 = new ArrayList<>(5);
+        answers2.add(new Answer("Answer 1"));
+        answers2.add(new Answer("Answer 2"));
+        answers2.add(new Answer("Answer 3"));
+        answers2.add(new Answer("Answer 4"));
+        answers2.add(new Answer("Answer 5"));
+        question2 = new Question(
+                new ArrayList<UUID>(answers2.subList(1, 5).stream().map(Answer::getId).toList()),
+                answers2.get(0).getId(),
+                "Lorem ipsum dolor sit amet, " +
+                        "consectetuer adipiscing elit, " +
+                        "sed diam nonummy nibh euismod tincidunt " +
+                        "ut laoreet dolore magna aliquam erat " +
+                        "volutpat. Ut wisi enim ad minim veniam, " +
+                        "quis nostrud exerci tation ullamcorper " +
+                        "suscipit lobortis nisl ut aliquip ex ea " +
+                        "commodo consequat?");
+        for (var a: answers2) {
+            answersService.save(a);
+        }
+        questionsService.save(question2);
+
         questionSet = new ManualQuestionSet(
-                UUID.randomUUID(),
-                "Manual set 1",
-                "Created on whole system initialization",
-                new ArrayList<>(List.of(question1.getId())));
+            UUID.randomUUID(),
+            "Manual set 1",
+            "Created on whole system initialization",
+            new ArrayList<>(
+                List.of(
+                    question1.getId(),
+                    question2.getId()
+                )
+            )
+        );
 
         questionSetsService.save(questionSet);
     }

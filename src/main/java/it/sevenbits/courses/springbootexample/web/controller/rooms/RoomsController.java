@@ -239,8 +239,6 @@ public class RoomsController {
                 throw new IllegalArgumentException("No request body sent!");
             }
 
-            System.out.println("Response assembled: " + ans);
-
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
         } catch (NullPointerException | IllegalArgumentException e) {
             System.out.println(e.getCause() + "\n" + e.getMessage());
