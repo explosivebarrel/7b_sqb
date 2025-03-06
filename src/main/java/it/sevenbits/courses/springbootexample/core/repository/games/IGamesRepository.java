@@ -1,13 +1,31 @@
 package it.sevenbits.courses.springbootexample.core.repository.games;
 
-import it.sevenbits.courses.springbootexample.core.model.answers.Answer;
 import it.sevenbits.courses.springbootexample.core.model.games.Game;
 
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 public interface IGamesRepository {
+    /**
+     *
+     * @return rt
+     */
     List<Game> getAll();
-    Game findById(UUID id);
-    Game save(Game game);
+
+    /**
+     *
+     * @param id id
+     * @return rt
+     */
+    Game findById(final UUID id);
+
+    /**
+     *
+     * @param game gm
+     * @return rt
+     */
+    Game save(final Game game);
 }

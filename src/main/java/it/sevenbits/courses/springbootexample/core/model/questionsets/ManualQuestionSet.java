@@ -16,7 +16,10 @@ public class ManualQuestionSet extends QuestionSet {
      * @param description dc
      * @param questions qs
      */
-    public ManualQuestionSet(UUID id, String label, String description, List<UUID> questions) {
+    public ManualQuestionSet(final UUID id,
+                             final String label,
+                             final String description,
+                             final List<UUID> questions) {
         super(id, label, description);
         this.questions = questions;
     }

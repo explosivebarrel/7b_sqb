@@ -2,7 +2,11 @@ package it.sevenbits.courses.springbootexample.web.controller.rooms;
 
 import it.sevenbits.courses.springbootexample.core.model.answers.Answer;
 import it.sevenbits.courses.springbootexample.core.model.games.Game;
-import it.sevenbits.courses.springbootexample.core.model.questions.*;
+import it.sevenbits.courses.springbootexample.core.model.questions.Question;
+import it.sevenbits.courses.springbootexample.core.model.questions.QuestionIdResponse;
+import it.sevenbits.courses.springbootexample.core.model.questions.QuestionAnswerRequest;
+import it.sevenbits.courses.springbootexample.core.model.questions.QuestionAnswerResponse;
+import it.sevenbits.courses.springbootexample.core.model.questions.QuestionWithOptionsResponse;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
 import it.sevenbits.courses.springbootexample.core.model.rooms.Room;
 import it.sevenbits.courses.springbootexample.core.service.answers.IAnswersService;

@@ -9,12 +9,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ *
+ */
 public class Question {
     private UUID id;
     private List<UUID> incorrectAnswerIDs;
     private UUID correctAnswerID;
     private String text;
 
+    /**
+     *
+     * @param incorrectAnswerIDs incorrectAnswerIDs
+     * @param correctAnswerId correctAnswerId
+     * @param text text
+     */
     @JsonCreator
     public Question(@JsonProperty("incorrectAnswerIDs") final List<UUID> incorrectAnswerIDs,
                     @JsonProperty("correctAnswerID") final UUID correctAnswerId,
@@ -25,6 +34,13 @@ public class Question {
         this.text = text;
     }
 
+    /**
+     *
+     * @param id id
+     * @param incorrectAnswerIDs incorrectAnswerIDs
+     * @param correctAnswerID correctAnswerId
+     * @param text text
+     */
     public Question(final UUID id,
                     final List<UUID> incorrectAnswerIDs,
                     final UUID correctAnswerID,
@@ -35,20 +51,36 @@ public class Question {
         this.text = text;
     }
 
+    /**
+     *
+     * @return rt
+     */
     public UUID getId() {
         return id;
     }
 
+    /**
+     *
+     * @return rt
+     */
     @JsonIgnore
     public List<UUID> getIncorrectAnswerIDs() {
         return incorrectAnswerIDs;
     }
 
+    /**
+     *
+     * @return rt
+     */
     @JsonIgnore
     public UUID getCorrectAnswerID() {
         return correctAnswerID;
     }
 
+    /**
+     *
+     * @return rt
+     */
     @JsonProperty("answers")
     public List<UUID> getAllAnswerIDs() {
         List<UUID> tmp = new ArrayList<UUID>(getIncorrectAnswerIDs().size());
@@ -57,18 +89,38 @@ public class Question {
         return tmp;
     }
 
+    /**
+     *
+     * @return rt
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     *
+     * @param o o
+     * @return rt
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Question question = (Question) o;
-        return Objects.equals(id, question.id) && Objects.equals(incorrectAnswerIDs, question.incorrectAnswerIDs) && Objects.equals(correctAnswerID, question.correctAnswerID) && Objects.equals(text, question.text);
+        return Objects.equals(id, question.id) &&
+            Objects.equals(incorrectAnswerIDs, question.incorrectAnswerIDs) &&
+            Objects.equals(correctAnswerID, question.correctAnswerID) &&
+            Objects.equals(text, question.text);
     }
 
+    /**
+     *
+     * @return rt
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, incorrectAnswerIDs, correctAnswerID, text);

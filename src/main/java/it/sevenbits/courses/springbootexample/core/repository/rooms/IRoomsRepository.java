@@ -17,14 +17,14 @@ public interface IRoomsRepository {
 
     /**
      *
-     * @param id
+     * @param id id
      * @return rt
      */
     Room findById(final String id);
 
     /**
      *
-     * @param room
+     * @param room r
      * @return rt
      */
     Room save(final Room room);

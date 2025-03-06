@@ -3,7 +3,11 @@ package it.sevenbits.courses.springbootexample.core.repository.questions;
 import it.sevenbits.courses.springbootexample.core.model.categories.Category;
 import it.sevenbits.courses.springbootexample.core.model.questions.Question;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *

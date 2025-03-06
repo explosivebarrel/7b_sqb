@@ -8,14 +8,34 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+/**
+ *
+ */
 @Component
 public class DefaultRoomInitializingBean implements InitializingBean {
     @Autowired
-    IRoomsService roomsService;
+    private IRoomsService roomsService;
 
+    /**
+     *
+     * @throws Exception ex
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
-        // roomsService.save(new Room(UUID.fromString("00000000-0000-0000-0000-000000000000"), UUID.fromString("00000000-0000-0000-0000-000000000000"), "Default room", "", true));
-        roomsService.save(new Room("1", UUID.fromString("00000000-0000-0000-0000-000000000000"), "Default room", "", true));
+//         roomsService.save(
+//         new Room(UUID.fromString("00000000-0000-0000-0000-000000000000"),
+//             UUID.fromString("00000000-0000-0000-0000-000000000000"),
+//             "Default room",
+//             "",
+//             true)
+//         );
+
+        roomsService.save(
+            new Room("1",
+                UUID.fromString("00000000-0000-0000-0000-000000000000"),
+                "Default room",
+                "",
+                true)
+        );
     }
 }

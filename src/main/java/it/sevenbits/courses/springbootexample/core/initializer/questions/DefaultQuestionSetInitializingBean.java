@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,11 +22,11 @@ import java.util.UUID;
 @Component
 public class DefaultQuestionSetInitializingBean implements InitializingBean {
     @Autowired
-    IAnswersService answersService;
+    private IAnswersService answersService;
     @Autowired
-    IQuestionSetsService questionSetsService;
+    private IQuestionSetsService questionSetsService;
     @Autowired
-    IQuestionsService questionsService;
+    private IQuestionsService questionsService;
 
     /**
      *
@@ -36,13 +37,13 @@ public class DefaultQuestionSetInitializingBean implements InitializingBean {
         QuestionSet questionSet;
 
         Question question1;
-        List<Answer> answers1 = new ArrayList<>(4);
+        List<Answer> answers1 = new LinkedList<>();
         answers1.add(new Answer("Answer 1"));
         answers1.add(new Answer("Answer 2"));
         answers1.add(new Answer("Answer 3"));
         answers1.add(new Answer("Answer 4"));
         question1 = new Question(
-            new ArrayList<UUID>(answers1.subList(1, 4).stream().map(Answer::getId).toList()),
+            new ArrayList<UUID>(answers1.subList(1, answers1.size()).stream().map(Answer::getId).toList()),
             answers1.get(0).getId(),
             "Lorem ipsum dolor sit amet, " +
                     "consectetuer adipiscing elit, " +
@@ -58,14 +59,14 @@ public class DefaultQuestionSetInitializingBean implements InitializingBean {
         questionsService.save(question1);
 
         Question question2;
-        List<Answer> answers2 = new ArrayList<>(5);
+        List<Answer> answers2 = new LinkedList<>();
         answers2.add(new Answer("Answer 1"));
         answers2.add(new Answer("Answer 2"));
         answers2.add(new Answer("Answer 3"));
         answers2.add(new Answer("Answer 4"));
         answers2.add(new Answer("Answer 5"));
         question2 = new Question(
-                new ArrayList<UUID>(answers2.subList(1, 5).stream().map(Answer::getId).toList()),
+                new ArrayList<UUID>(answers2.subList(1, answers2.size()).stream().map(Answer::getId).toList()),
                 answers2.get(0).getId(),
                 "Lorem ipsum dolor sit amet, " +
                         "consectetuer adipiscing elit, " +
