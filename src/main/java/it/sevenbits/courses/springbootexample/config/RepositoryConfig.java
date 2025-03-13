@@ -2,8 +2,6 @@ package it.sevenbits.courses.springbootexample.config;
 
 import it.sevenbits.courses.springbootexample.core.repository.answers.IAnswersRepository;
 import it.sevenbits.courses.springbootexample.core.repository.answers.SimpleAnswersRepository;
-import it.sevenbits.courses.springbootexample.core.repository.books.BooksRepository;
-import it.sevenbits.courses.springbootexample.core.repository.books.SimpleBooksRepository;
 import it.sevenbits.courses.springbootexample.core.repository.games.IGamesRepository;
 import it.sevenbits.courses.springbootexample.core.repository.games.SimpleGamesRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questions.IQuestionsRepository;
@@ -20,15 +18,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RepositoryConfig {
-
-    /**
-     * The method creates instance of repository
-     * @return instance of the repository
-     */
-    @Bean
-    public BooksRepository booksRepository() {
-        return new SimpleBooksRepository();
-    }
 
     /**
      * The method creates instance of repository

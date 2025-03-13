@@ -1,13 +1,10 @@
 package it.sevenbits.courses.springbootexample.web.controller.rooms;
 
-import it.sevenbits.courses.springbootexample.core.model.answers.Answer;
 import it.sevenbits.courses.springbootexample.core.model.games.Game;
-import it.sevenbits.courses.springbootexample.core.model.questions.Question;
-import it.sevenbits.courses.springbootexample.core.model.questions.QuestionIdResponse;
-import it.sevenbits.courses.springbootexample.core.model.questions.QuestionAnswerRequest;
-import it.sevenbits.courses.springbootexample.core.model.questions.QuestionAnswerResponse;
-import it.sevenbits.courses.springbootexample.core.model.questions.QuestionWithOptionsResponse;
-import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
+import it.sevenbits.courses.springbootexample.web.model.questions.QuestionIdResponse;
+import it.sevenbits.courses.springbootexample.web.model.questions.QuestionAnswerRequest;
+import it.sevenbits.courses.springbootexample.web.model.questions.QuestionAnswerResponse;
+import it.sevenbits.courses.springbootexample.web.model.questions.QuestionWithOptionsResponse;
 import it.sevenbits.courses.springbootexample.core.model.rooms.Room;
 import it.sevenbits.courses.springbootexample.core.service.answers.IAnswersService;
 import it.sevenbits.courses.springbootexample.core.service.games.IGamesService;
@@ -26,9 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -86,7 +81,6 @@ public class RoomsController {
     @ResponseBody
     public ResponseEntity<Room> getRoom(@PathVariable("id") final String id) {
         try {
-            // Room ans = roomsService.findById(UUID.fromString(id));
             Room ans = roomsService.findById(id);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
         } catch (Exception e) {
@@ -106,22 +100,7 @@ public class RoomsController {
             @PathVariable(name = "id") final String id,
             @RequestParam(name = "questionSetId", required = false) final String questionSetId) {
         try {
-            // Room curRoom = roomsService.findById(UUID.fromString(id));
-            Room curRoom = roomsService.findById(id);
-            Game curGame;
-
-            if (questionSetId != null) {
-                curGame = gamesService.startNewGame(UUID.fromString(questionSetId));
-            } else {
-                List<QuestionSet> qslist = questionSetsService.getAll();
-                curGame = gamesService.startNewGame(qslist.get(0).getId());
-            }
-
-            curRoom.setCurrentGameId(curGame.getId());
-            roomsService.save(curRoom);
-
-            QuestionIdResponse ans = new QuestionIdResponse(curGame.getQuestions().getQuestionIDs().get(0));
-
+            QuestionIdResponse ans = roomsService.startNewGameNGetQuestion(id, questionSetId);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -138,15 +117,7 @@ public class RoomsController {
     @ResponseBody
     public ResponseEntity<Game> getRoomsGame(@PathVariable(name = "id") final String id) {
         try {
-            //Room curRoom = roomsService.findById(UUID.fromString(id));
-            Room curRoom = roomsService.findById(id);
-
-            if (curRoom.getCurrentGameId() == null) {
-                throw new NullPointerException("No game currently running in " + id + " room");
-            }
-
-            Game curGame = gamesService.findById(curRoom.getCurrentGameId());
-
+            Game curGame = roomsService.getRoomsGame(id);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(curGame);
         } catch (NullPointerException e) {
             return ResponseEntity.notFound().build();
@@ -167,27 +138,7 @@ public class RoomsController {
             @PathVariable(name = "id") final String id,
             @PathVariable(name = "questionId") final String questionId) {
         try {
-            // Room curRoom = roomsService.findById(UUID.fromString(id));
-            Room curRoom = roomsService.findById(id);
-            Game curGame = gamesService.findById(curRoom.getCurrentGameId());
-
-            UUID qsId = UUID.fromString(questionId);
-
-            Question qs;
-
-            if (curGame.getQuestions().getQuestionIDs().contains(qsId)) {
-                qs = questionsService.findById(qsId);
-            } else {
-                throw new IllegalArgumentException("Question " + questionId + " doesn't exists in this game");
-            }
-
-            List<Answer> answs = new ArrayList<>(qs.getAllAnswerIDs().size());
-            for (var a: qs.getAllAnswerIDs()) {
-                answs.add(answersService.findById(a));
-            }
-
-            QuestionWithOptionsResponse ans = new QuestionWithOptionsResponse(qs.getId(), qs.getText(), answs);
-
+            QuestionWithOptionsResponse ans = roomsService.getRoomGamesQuestionById(id, questionId);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
@@ -210,45 +161,11 @@ public class RoomsController {
             @PathVariable(name = "questionId") final String questionId,
             @RequestBody final QuestionAnswerRequest questionAnswerRequest) {
         try {
-            // Room curRoom = roomsService.findById(UUID.fromString(id));
-            Room curRoom = roomsService.findById(id);
-            Game curGame = gamesService.findById(curRoom.getCurrentGameId());
-
-            UUID qsId = UUID.fromString(questionId);
-
-            Question qs;
-            QuestionAnswerResponse ans;
-
-            if (curGame.getQuestions().getQuestionIDs().contains(qsId)) {
-                qs = questionsService.findById(qsId);
-            } else {
-                throw new IllegalArgumentException("Question " + questionId + " doesn't exists in this game");
-            }
-
-            if (questionAnswerRequest != null) {
-                long scoreTotal = 0, scoreGain = 0;
-                if (qs.getCorrectAnswerID().equals(questionAnswerRequest.getAnswerId())) {
-                    scoreGain = 1;
-                }
-                scoreTotal += scoreGain;
-
-                int nextIndex = curGame.getQuestions().getQuestionIDs().indexOf(qsId) + 1;
-                UUID nextQuestionId = null;
-                if (nextIndex < curGame.getQuestions().getQuestionIDs().size()) {
-                    nextQuestionId = curGame.getQuestions().getQuestionIDs().get(nextIndex);
-                }
-
-                ans = new QuestionAnswerResponse(qs.getCorrectAnswerID(), nextQuestionId, scoreTotal, scoreGain);
-            } else {
-                throw new IllegalArgumentException("No request body sent!");
-            }
-
+            QuestionAnswerResponse ans = roomsService.getRoomGamesQuestionsAnswerById(id, questionId, questionAnswerRequest);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
         } catch (NullPointerException | IllegalArgumentException e) {
-            System.out.println(e.getCause() + "\n" + e.getMessage());
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
-            System.out.println(e.getCause() + "\n" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

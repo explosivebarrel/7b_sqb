@@ -1,15 +1,12 @@
 package it.sevenbits.courses.springbootexample.config;
 
 import it.sevenbits.courses.springbootexample.core.repository.answers.IAnswersRepository;
-import it.sevenbits.courses.springbootexample.core.repository.books.BooksRepository;
 import it.sevenbits.courses.springbootexample.core.repository.games.IGamesRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questions.IQuestionsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.IQuestionSetsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.rooms.IRoomsRepository;
 import it.sevenbits.courses.springbootexample.core.service.answers.AnswersService;
 import it.sevenbits.courses.springbootexample.core.service.answers.IAnswersService;
-import it.sevenbits.courses.springbootexample.core.service.books.BooksService;
-import it.sevenbits.courses.springbootexample.core.service.books.IBooksService;
 import it.sevenbits.courses.springbootexample.core.service.games.GamesService;
 import it.sevenbits.courses.springbootexample.core.service.games.IGamesService;
 import it.sevenbits.courses.springbootexample.core.service.questions.IQuestionsService;
@@ -26,16 +23,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ServiceConfig {
-
-     /**
-     * The method creates instance of service
-     * @param booksRepository instance of the repository
-     * @return instance of the service
-     */
-    @Bean
-    public IBooksService booksService(final BooksRepository booksRepository) {
-        return new BooksService(booksRepository);
-    }
 
     /**
      * The method creates instance of service
@@ -61,11 +48,19 @@ public class ServiceConfig {
     /**
      * The method creates instance of service
      * @param roomsRepository instance of the repository
+     * @param gamesService instance of the service
+     * @param questionsService instance of the service
+     * @param answersService instance of the service
+     * @param questionSetsService instance of the service
      * @return instance of the service
      */
     @Bean
-    public IRoomsService roomsService(final IRoomsRepository roomsRepository) {
-        return new RoomsService(roomsRepository);
+    public IRoomsService roomsService(final IRoomsRepository roomsRepository,
+                                      final IGamesService gamesService,
+                                      final IQuestionsService questionsService,
+                                      final IAnswersService answersService,
+                                      final IQuestionSetsService questionSetsService) {
+        return new RoomsService(roomsRepository, gamesService, questionsService, answersService, questionSetsService);
     }
 
     /**

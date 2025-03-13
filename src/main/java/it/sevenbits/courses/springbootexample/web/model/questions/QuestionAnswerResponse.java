@@ -1,4 +1,4 @@
-package it.sevenbits.courses.springbootexample.core.model.questions;
+package it.sevenbits.courses.springbootexample.web.model.questions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
