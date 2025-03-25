@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -100,10 +101,19 @@ public class RoomsController {
             @PathVariable(name = "id") final String id,
             @RequestParam(name = "questionSetId", required = false) final String questionSetId) {
         try {
+            if (id.isEmpty()) {
+                throw new IllegalArgumentException();
+            }
+            if (roomsService.findById(id) == null) {
+                throw new IndexOutOfBoundsException();
+            }
             QuestionIdResponse ans = roomsService.startNewGameNGetQuestion(id, questionSetId);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (IndexOutOfBoundsException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -138,10 +148,18 @@ public class RoomsController {
             @PathVariable(name = "id") final String id,
             @PathVariable(name = "questionId") final String questionId) {
         try {
+            if (id.isEmpty() || questionId.isEmpty()) {
+                throw new IllegalArgumentException();
+            }
+            if (roomsService.findById(id) == null || questionsService.findById(UUID.fromString(questionId)) == null) {
+                throw new IndexOutOfBoundsException();
+            }
             QuestionWithOptionsResponse ans = roomsService.getRoomGamesQuestionById(id, questionId);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (IndexOutOfBoundsException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -161,10 +179,28 @@ public class RoomsController {
             @PathVariable(name = "questionId") final String questionId,
             @RequestBody final QuestionAnswerRequest questionAnswerRequest) {
         try {
+            if (id.isEmpty() || questionId.isEmpty()) {
+                throw new IllegalArgumentException();
+            }
+            if (roomsService.findById(id) == null || questionsService.findById(UUID.fromString(questionId)) == null) {
+                throw new IndexOutOfBoundsException();
+            }
+            if (questionAnswerRequest != null) {
+                if (!questionsService.findById(UUID.fromString(questionId))
+                        .getAllAnswerIDs().contains(questionAnswerRequest.getAnswerId())) {
+                    throw new NullPointerException();
+                }
+            } else {
+                throw new IllegalArgumentException();
+            }
             QuestionAnswerResponse ans = roomsService.getRoomGamesQuestionsAnswerById(id, questionId, questionAnswerRequest);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(ans);
-        } catch (NullPointerException | IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (IndexOutOfBoundsException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
