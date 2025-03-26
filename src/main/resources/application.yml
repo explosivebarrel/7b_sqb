@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    jdbcUrl: jdbc:postgresql://localhost:5432/seven_quizzes
+    username: seven_quizzes
+    password: seven_password
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+logging:
+  level:
+    org.flywaydb: DEBUG
