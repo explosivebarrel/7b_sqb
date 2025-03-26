@@ -1,7 +1,7 @@
 -- Создание таблицы games
 CREATE TABLE games (
-    id UUID PRIMARY KEY,
-    questionSetId UUID NOT NULL
+    id VARCHAR(36) PRIMARY KEY,
+    questionSetId VARCHAR(36) NOT NULL
 );
 
 -- Комментарий к таблице (опционально)

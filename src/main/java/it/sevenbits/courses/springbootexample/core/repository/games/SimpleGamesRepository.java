@@ -1,6 +1,7 @@
 package it.sevenbits.courses.springbootexample.core.repository.games;
 
 import it.sevenbits.courses.springbootexample.core.model.games.Game;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class SimpleGamesRepository implements IGamesRepository {
      * @return rt
      */
     @Override
+    @Transactional
     public List<Game> getAll() {
         return new ArrayList<>(gamesMap.values());
     }
@@ -29,6 +31,7 @@ public class SimpleGamesRepository implements IGamesRepository {
      * @return rt
      */
     @Override
+    @Transactional
     public Game findById(final UUID id) {
         return gamesMap.get(id);
     }
@@ -39,6 +42,7 @@ public class SimpleGamesRepository implements IGamesRepository {
      * @return rt
      */
     @Override
+    @Transactional
     public Game save(final Game game) {
         return gamesMap.put(game.getId(), game);
     }
