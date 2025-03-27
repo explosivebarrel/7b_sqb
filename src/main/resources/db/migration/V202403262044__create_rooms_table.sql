@@ -2,10 +2,11 @@
 CREATE TABLE rooms (
     id VARCHAR(36) PRIMARY KEY,
     ownerId VARCHAR(36) NOT NULL,
-    name VARCHAR(512) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     password VARCHAR(512),
-    isPublic BIT NOT NULL,
-    currentGameId VARCHAR(36)
+    isPublic BOOLEAN NOT NULL,
+    currentGameId VARCHAR(36),
+    createdAt TIMESTAMP DEFAULT NOW()
 );
 
 -- Комментарий к таблице (опционально)
