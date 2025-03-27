@@ -75,7 +75,7 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
     @Override
     public Question save(Question question) {
         String sqlQuestionsTable = "INSERT INTO questions (id, content) VALUES (?, ?)";
-        String sqlLinkTable = "INSERT INTO questionAnswers (questionId, answerId, isCorrect) VALUES (?, ?, ?))";
+        String sqlLinkTable = "INSERT INTO questionAnswers (questionId, answerId, isCorrect) VALUES (?, ?, ?)";
 
         jdbcOperations.update(sqlQuestionsTable,
                 question.getId().toString(),

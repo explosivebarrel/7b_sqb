@@ -6,6 +6,7 @@ import it.sevenbits.courses.springbootexample.core.repository.games.IGamesReposi
 import it.sevenbits.courses.springbootexample.core.repository.games.JdbcGamesRepository;
 import it.sevenbits.courses.springbootexample.core.repository.games.SimpleGamesRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questions.IQuestionsRepository;
+import it.sevenbits.courses.springbootexample.core.repository.questions.JdbcQuestionsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questions.SimpleQuestionsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.IQuestionSetsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.SimpleQuestionSetsRepository;
@@ -46,8 +47,9 @@ public class RepositoryConfig {
      * @return instance of the repository
      */
     @Bean
-    public IQuestionsRepository questionsRepository() {
-        return new SimpleQuestionsRepository();
+    public IQuestionsRepository questionsRepository(@Qualifier("squizzesJdbcOperations")
+                                                    JdbcOperations jdbcOperations) {
+        return new JdbcQuestionsRepository(jdbcOperations);
     }
 
     /**
