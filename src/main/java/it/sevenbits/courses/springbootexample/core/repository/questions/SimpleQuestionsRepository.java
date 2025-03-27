@@ -2,6 +2,7 @@ package it.sevenbits.courses.springbootexample.core.repository.questions;
 
 import it.sevenbits.courses.springbootexample.core.model.categories.Category;
 import it.sevenbits.courses.springbootexample.core.model.questions.Question;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.HashMap;

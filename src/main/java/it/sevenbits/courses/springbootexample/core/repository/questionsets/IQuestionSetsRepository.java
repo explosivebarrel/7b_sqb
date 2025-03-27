@@ -1,6 +1,7 @@
 package it.sevenbits.courses.springbootexample.core.repository.questionsets;
 
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,6 +9,7 @@ import java.util.UUID;
 /**
  *
  */
+@Repository
 public interface IQuestionSetsRepository {
     /**
      *

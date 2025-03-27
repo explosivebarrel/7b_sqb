@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
-@Repository
 public class JdbcQuestionSetsRepository implements IQuestionSetsRepository {
     private final JdbcOperations jdbcOperations;
 
@@ -19,7 +18,8 @@ public class JdbcQuestionSetsRepository implements IQuestionSetsRepository {
     private List<UUID> getQuestionIdsForSet(UUID setId) {
         String sql = "SELECT questionId FROM questionSetQuestions WHERE questionSetId = ? ORDER BY sortOrder";
         return jdbcOperations.query(sql,
-                (rs, rowNum) -> UUID.fromString(rs.getString("questionId")),
+                (rs, rowNum) ->
+                        UUID.fromString(rs.getString("questionId")),
                 setId.toString()
         );
     }

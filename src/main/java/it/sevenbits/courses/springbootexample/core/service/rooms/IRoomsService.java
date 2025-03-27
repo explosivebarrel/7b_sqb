@@ -28,10 +28,10 @@ public interface IRoomsService {
 
     /**
      *
-     * @param answer answer
+     * @param room room
      * @return return
      */
-    Room save(Room answer);
+    Room save(Room room);
 
     /**
      *

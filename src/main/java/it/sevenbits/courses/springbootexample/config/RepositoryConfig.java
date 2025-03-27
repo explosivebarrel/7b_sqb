@@ -13,6 +13,7 @@ import it.sevenbits.courses.springbootexample.core.repository.questionsets.IQues
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.JdbcQuestionSetsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.SimpleQuestionSetsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.rooms.IRoomsRepository;
+import it.sevenbits.courses.springbootexample.core.repository.rooms.JdbcRoomsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.rooms.SimpleRoomsRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +44,7 @@ public class RepositoryConfig {
     @Bean
     public IRoomsRepository roomsRepository(@Qualifier("squizzesJdbcOperations")
                                             JdbcOperations jdbcOperations) {
-        return new SimpleRoomsRepository();
+        return new JdbcRoomsRepository(jdbcOperations);
     }
 
     /**

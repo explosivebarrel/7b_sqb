@@ -186,8 +186,13 @@ public class RoomsController {
                 throw new IndexOutOfBoundsException();
             }
             if (questionAnswerRequest != null) {
-                if (!questionsService.findById(UUID.fromString(questionId))
-                        .getAllAnswerIDs().contains(questionAnswerRequest.getAnswerId())) {
+                var l = questionsService.findById(UUID.fromString(questionId)).getAllAnswerIDs();
+                if (!l.contains(questionAnswerRequest.getAnswerId())) {
+                    System.out.println("Ans " + questionAnswerRequest + ": " + questionAnswerRequest.getAnswerId());
+                    for (var a: l) {
+                        System.out.println(a);
+                    }
+
                     throw new NullPointerException();
                 }
             } else {

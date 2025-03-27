@@ -4,6 +4,7 @@ import it.sevenbits.courses.springbootexample.core.model.rooms.Room;
 import it.sevenbits.courses.springbootexample.core.service.rooms.IRoomsService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -22,6 +23,16 @@ public class DefaultRoomInitializingBean implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
+        String rnid = "1";
+
+        try {
+            if (roomsService.findById(rnid) != null) {
+                return;
+            }
+        } catch (EmptyResultDataAccessException ex) {
+            System.out.println("Initialization");
+        }
+
 //         roomsService.save(
 //         new Room(UUID.fromString("00000000-0000-0000-0000-000000000000"),
 //             UUID.fromString("00000000-0000-0000-0000-000000000000"),
@@ -31,7 +42,7 @@ public class DefaultRoomInitializingBean implements InitializingBean {
 //         );
 
         roomsService.save(
-            new Room("1",
+            new Room(rnid,
                 UUID.fromString("00000000-0000-0000-0000-000000000000"),
                 "Default room",
                 "",

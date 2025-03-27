@@ -9,6 +9,7 @@ import it.sevenbits.courses.springbootexample.core.service.questions.IQuestionsS
 import it.sevenbits.courses.springbootexample.core.service.questionsets.IQuestionSetsService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -34,6 +35,16 @@ public class DefaultQuestionSetInitializingBean implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
+        UUID qsnid = UUID.fromString("00000000-0000-0000-0000-000000000000");
+
+        try {
+            if (questionSetsService.findById(qsnid) != null) {
+                return;
+            }
+        } catch (EmptyResultDataAccessException ex) {
+            System.out.println("Initialization");
+        }
+
         QuestionSet questionSet;
 
         Question question1;
@@ -82,7 +93,7 @@ public class DefaultQuestionSetInitializingBean implements InitializingBean {
         questionsService.save(question2);
 
         questionSet = new ManualQuestionSet(
-            UUID.randomUUID(),
+            qsnid,
             "Manual set 1",
             "Created on whole system initialization",
             new ArrayList<>(

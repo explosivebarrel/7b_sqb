@@ -1,6 +1,7 @@
 package it.sevenbits.courses.springbootexample.core.repository.questions;
 import it.sevenbits.courses.springbootexample.core.model.categories.Category;
 import it.sevenbits.courses.springbootexample.core.model.questions.Question;
+import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
 import it.sevenbits.courses.springbootexample.core.repository.answers.IAnswersRepository;
 import org.flywaydb.core.internal.util.Pair;
 import org.springframework.jdbc.core.JdbcOperations;
@@ -10,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-@Repository
 public class JdbcQuestionsRepository implements IQuestionsRepository {
     private final JdbcOperations jdbcOperations;
 
@@ -22,11 +22,13 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
         String sqlLinkTable = "SELECT answerId, isCorrect FROM questionAnswers WHERE questionId = ?";
 
         List<Pair<UUID, Boolean>> answers = jdbcOperations.query(sqlLinkTable, (rs, rowNum) -> {
-//                System.out.println("Query for answer: " + rs);
-                return Pair.of(UUID.fromString(rs.getString("answerId")), Boolean.valueOf(rs.getString("isCorrect")));
+                System.out.println("Query for answer: " + rs);
+                return Pair.of(UUID.fromString(rs.getString("answerId")), rs.getBoolean("isCorrect"));
             },
             id.toString()
         );
+
+        System.out.println("Got answers list: " + answers);
 
         UUID correctId = new UUID(0,0);
         List<UUID> incorrectIds = new LinkedList<>();
@@ -38,7 +40,11 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
             }
         }
 
-        return new Question(id, incorrectIds, correctId, content);
+        Question ans = new Question(id, incorrectIds, correctId, content);
+
+        System.out.println("Questions generated: " + ans);
+
+        return ans;
     }
 
     @Override
@@ -71,7 +77,7 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
 
         return jdbcOperations.queryForObject(sqlQuestionsTable,
             (rs, rowNumE) -> {
-//                System.out.println("Query for question: " + rs);
+                System.out.println("Query for question: " + rs);
                 return generateQuestionWithItsAnswers(UUID.fromString(rs.getString("id")), rs.getString("content"));
             },
             id.toString());

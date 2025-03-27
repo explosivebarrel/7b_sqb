@@ -30,7 +30,7 @@ public class Answer {
     @JsonCreator
     public Answer(@JsonProperty("answerId") final UUID id,
                   @JsonProperty("answerText") final String text) {
-        this.id = UUID.randomUUID();
+        this.id = id;
         this.text = text;
     }
 

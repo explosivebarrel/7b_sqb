@@ -130,7 +130,9 @@ public class RoomsService implements IRoomsService {
     public QuestionWithOptionsResponse getRoomGamesQuestionById(final String id, final String questionId) {
         // Room curRoom = roomsService.findById(UUID.fromString(id));
         Room curRoom = findById(id);
+        System.out.println("LOL " + curRoom + " " + curRoom.getCurrentGameId());
         Game curGame = gamesService.findById(curRoom.getCurrentGameId());
+        System.out.println("KEK " + curGame);
 
         UUID qsId = UUID.fromString(questionId);
 
@@ -138,6 +140,7 @@ public class RoomsService implements IRoomsService {
 
         if (curGame.getQuestions().getQuestionIDs().contains(qsId)) {
             qs = questionsService.findById(qsId);
+            System.out.println("Cheburek");
         } else {
             throw new IllegalArgumentException("Question " + questionId + " doesn't exists in this game");
         }
@@ -145,8 +148,10 @@ public class RoomsService implements IRoomsService {
         List<Answer> answs = new ArrayList<>(qs.getAllAnswerIDs().size());
         for (var a: qs.getAllAnswerIDs()) {
             answs.add(answersService.findById(a));
+            System.out.println("Hulahup");
         }
 
+        System.out.println("HERE YOU GO!");
         return new QuestionWithOptionsResponse(qs.getId(), qs.getText(), answs);
     }
 
