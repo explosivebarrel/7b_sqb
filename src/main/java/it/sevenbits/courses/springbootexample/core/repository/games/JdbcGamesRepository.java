@@ -9,12 +9,20 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 @Repository
 public class JdbcGamesRepository implements IGamesRepository {
     private final IQuestionSetsRepository questionSetRepo;
     private final JdbcOperations jdbcOperations;
 
-    public JdbcGamesRepository(IQuestionSetsRepository questionSetRepo, JdbcOperations jdbcOperations) {
+    /**
+     *
+     * @param questionSetRepo questionSetRepo
+     * @param jdbcOperations jdbcOperations
+     */
+    public JdbcGamesRepository(final IQuestionSetsRepository questionSetRepo, final JdbcOperations jdbcOperations) {
         this.questionSetRepo = questionSetRepo;
         this.jdbcOperations = jdbcOperations;
     }
@@ -31,7 +39,7 @@ public class JdbcGamesRepository implements IGamesRepository {
     }
 
     @Override
-    public Game findById(UUID id) {
+    public Game findById(final UUID id) {
         String sql = "SELECT id, questionsetid FROM games WHERE id = ?";
         return jdbcOperations.queryForObject(sql,
             (rs, rowNum) -> new Game(
@@ -43,7 +51,7 @@ public class JdbcGamesRepository implements IGamesRepository {
     }
 
     @Override
-    public Game save(Game game) {
+    public Game save(final Game game) {
         String sql = "INSERT INTO games (id, questionsetid, status) VALUES (?, ?, ?)";
         jdbcOperations.update(sql,
             game.getId().toString(),

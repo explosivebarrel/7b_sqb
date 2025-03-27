@@ -3,19 +3,25 @@ package it.sevenbits.courses.springbootexample.core.repository.questionsets;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.ManualQuestionSet;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 public class JdbcQuestionSetsRepository implements IQuestionSetsRepository {
     private final JdbcOperations jdbcOperations;
 
-    public JdbcQuestionSetsRepository(JdbcOperations jdbcOperations) {
+    /**
+     *
+     * @param jdbcOperations jdbcOperations
+     */
+    public JdbcQuestionSetsRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 
-    private List<UUID> getQuestionIdsForSet(UUID setId) {
+    private List<UUID> getQuestionIdsForSet(final UUID setId) {
         String sql = "SELECT questionId FROM questionSetQuestions WHERE questionSetId = ? ORDER BY sortOrder";
         return jdbcOperations.query(sql,
                 (rs, rowNum) ->
@@ -39,7 +45,7 @@ public class JdbcQuestionSetsRepository implements IQuestionSetsRepository {
     }
 
     @Override
-    public QuestionSet findById(UUID id) {
+    public QuestionSet findById(final UUID id) {
         String sql = "SELECT name as label, description FROM questionSets WHERE id = ?";
         return jdbcOperations.queryForObject(sql,
             (rs, rowNum) ->
@@ -53,7 +59,7 @@ public class JdbcQuestionSetsRepository implements IQuestionSetsRepository {
     }
 
     @Override
-    public QuestionSet save(QuestionSet questionSet) {
+    public QuestionSet save(final QuestionSet questionSet) {
         // Сохраняем сам набор
         String sqlSet = "INSERT INTO questionSets (id, name, description) VALUES (?, ?, ?)";
         jdbcOperations.update(sqlSet,

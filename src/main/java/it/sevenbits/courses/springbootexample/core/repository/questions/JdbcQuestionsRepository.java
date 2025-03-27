@@ -1,24 +1,29 @@
 package it.sevenbits.courses.springbootexample.core.repository.questions;
+
 import it.sevenbits.courses.springbootexample.core.model.categories.Category;
 import it.sevenbits.courses.springbootexample.core.model.questions.Question;
-import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
-import it.sevenbits.courses.springbootexample.core.repository.answers.IAnswersRepository;
 import org.flywaydb.core.internal.util.Pair;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.stereotype.Repository;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 public class JdbcQuestionsRepository implements IQuestionsRepository {
     private final JdbcOperations jdbcOperations;
 
-    public JdbcQuestionsRepository(JdbcOperations jdbcOperations) {
+    /**
+     *
+     * @param jdbcOperations jdbcOperations
+     */
+    public JdbcQuestionsRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 
-    private Question generateQuestionWithItsAnswers(UUID id, String content) {
+    private Question generateQuestionWithItsAnswers(final UUID id, final String content) {
         String sqlLinkTable = "SELECT answerId, isCorrect FROM questionAnswers WHERE questionId = ?";
 
         List<Pair<UUID, Boolean>> answers = jdbcOperations.query(sqlLinkTable, (rs, rowNum) -> {
@@ -30,9 +35,9 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
 
         System.out.println("Got answers list: " + answers);
 
-        UUID correctId = new UUID(0,0);
+        UUID correctId = new UUID(0, 0);
         List<UUID> incorrectIds = new LinkedList<>();
-        for(var p: answers) {
+        for (var p: answers) {
             if (p.getRight().equals(true)) {
                 correctId = p.getLeft();
             } else {
@@ -57,12 +62,12 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
     }
 
     @Override
-    public List<Question> findByCategory(Category category) {
+    public List<Question> findByCategory(final Category category) {
         return null;
     }
 
     @Override
-    public List<Question> findByText(String content) {
+    public List<Question> findByText(final String content) {
         String sqlQuestionsTable = "SELECT id, content FROM questions WHERE content LIKE ?";
 
         return jdbcOperations.query(sqlQuestionsTable,
@@ -72,7 +77,7 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
     }
 
     @Override
-    public Question findById(UUID id) {
+    public Question findById(final UUID id) {
         String sqlQuestionsTable = "SELECT id, content FROM questions WHERE id = ?";
 
         return jdbcOperations.queryForObject(sqlQuestionsTable,
@@ -84,7 +89,7 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
     }
 
     @Override
-    public Question save(Question question) {
+    public Question save(final Question question) {
         String sqlQuestionsTable = "INSERT INTO questions (id, content) VALUES (?, ?)";
         String sqlLinkTable = "INSERT INTO questionAnswers (questionId, answerId, isCorrect) VALUES (?, ?, ?)";
 

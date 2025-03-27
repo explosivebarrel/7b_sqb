@@ -1,7 +1,6 @@
 package it.sevenbits.courses.springbootexample.core.repository.questionsets;
 
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
-import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.HashMap;

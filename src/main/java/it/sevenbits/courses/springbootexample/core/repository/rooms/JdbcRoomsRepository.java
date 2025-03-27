@@ -8,15 +8,27 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 @Repository
 public class JdbcRoomsRepository implements IRoomsRepository {
     private final JdbcOperations jdbcOperations;
 
-    public JdbcRoomsRepository(JdbcOperations jdbcOperations) {
+    /**
+     *
+     * @param jdbcOperations jdbcOperations
+     */
+    public JdbcRoomsRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 
-    private void updateCurrentGame(String roomId, UUID gameId) {
+    /**
+     *
+     * @param roomId rid
+     * @param gameId gid
+     */
+    private void updateCurrentGame(final String roomId, final UUID gameId) {
         String sql = "UPDATE rooms SET currentGameId = ? WHERE id = ?";
         jdbcOperations.update(sql,
                 gameId != null ? gameId.toString() : null,
@@ -45,7 +57,7 @@ public class JdbcRoomsRepository implements IRoomsRepository {
     }
 
     @Override
-    public Room findById(String id) {
+    public Room findById(final String id) {
         String sql = "SELECT ownerId, name, password, isPublic, currentGameId FROM rooms WHERE id = ?";
         return jdbcOperations.queryForObject(sql,
                 (rs, rowNum) -> {
@@ -66,12 +78,11 @@ public class JdbcRoomsRepository implements IRoomsRepository {
     }
 
     @Override
-    public Room save(Room room) {
+    public Room save(final Room room) {
         String sqlInsert = "INSERT INTO rooms (id, ownerId, name, password, isPublic) VALUES (?, ?, ?, ?, ?)";
 
         try {
-            if (findById(room.getId()) != null)
-            {
+            if (findById(room.getId()) != null) {
                 updateCurrentGame(room.getId(), room.getCurrentGameId());
             }
         } catch (EmptyResultDataAccessException ex) {

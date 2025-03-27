@@ -7,11 +7,18 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ */
 @Repository
 public class JdbcAnswersRepository implements IAnswersRepository {
     private final JdbcOperations jdbcOperations;
 
-    public JdbcAnswersRepository(JdbcOperations jdbcOperations) {
+    /**
+     *
+     * @param jdbcOperations jdbcOperations
+     */
+    public JdbcAnswersRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 
@@ -27,7 +34,7 @@ public class JdbcAnswersRepository implements IAnswersRepository {
     }
 
     @Override
-    public Answer findById(UUID id) {
+    public Answer findById(final UUID id) {
         String sql = "SELECT content as answerText FROM answers WHERE id = ?";
         return jdbcOperations.queryForObject(sql,
                 (rs, rowNum) -> new Answer(id, rs.getString("answerText")),
@@ -36,7 +43,7 @@ public class JdbcAnswersRepository implements IAnswersRepository {
     }
 
     @Override
-    public Answer save(Answer answer) {
+    public Answer save(final Answer answer) {
         String sql = "INSERT INTO answers (id, content) VALUES (?, ?)";
         jdbcOperations.update(sql,
                 answer.getId().toString(),
