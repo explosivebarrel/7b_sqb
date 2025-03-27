@@ -1,6 +1,7 @@
 package it.sevenbits.courses.springbootexample.core.repository.games;
 
 import it.sevenbits.courses.springbootexample.core.model.games.Game;
+import it.sevenbits.courses.springbootexample.core.model.games.GameStatus;
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.IQuestionSetsRepository;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -43,10 +44,11 @@ public class JdbcGamesRepository implements IGamesRepository {
 
     @Override
     public Game save(Game game) {
-        String sql = "INSERT INTO games (id, questionsetid) VALUES (?, ?)";
+        String sql = "INSERT INTO games (id, questionsetid, status) VALUES (?, ?, ?)";
         jdbcOperations.update(sql,
             game.getId().toString(),
-            game.getQuestions().getId().toString()
+            game.getQuestions().getId().toString(),
+            GameStatus.READY_TO_START
         );
         return game;
     }
