@@ -17,7 +17,7 @@ public class Room {
     private String name;
     private String password;
     private Boolean isPublic = false;
-    private UUID currentGameId;
+    private UUID currentGameId = null;
 
     /**
      *

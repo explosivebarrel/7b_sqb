@@ -1,6 +1,7 @@
 package it.sevenbits.courses.springbootexample.config;
 
 import it.sevenbits.courses.springbootexample.core.repository.answers.IAnswersRepository;
+import it.sevenbits.courses.springbootexample.core.repository.answers.JdbcAnswersRepository;
 import it.sevenbits.courses.springbootexample.core.repository.answers.SimpleAnswersRepository;
 import it.sevenbits.courses.springbootexample.core.repository.games.IGamesRepository;
 import it.sevenbits.courses.springbootexample.core.repository.games.JdbcGamesRepository;
@@ -9,6 +10,7 @@ import it.sevenbits.courses.springbootexample.core.repository.questions.IQuestio
 import it.sevenbits.courses.springbootexample.core.repository.questions.JdbcQuestionsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questions.SimpleQuestionsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.IQuestionSetsRepository;
+import it.sevenbits.courses.springbootexample.core.repository.questionsets.JdbcQuestionSetsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.SimpleQuestionSetsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.rooms.IRoomsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.rooms.SimpleRoomsRepository;
@@ -29,8 +31,9 @@ public class RepositoryConfig {
      * @return instance of the repository
      */
     @Bean
-    public IAnswersRepository answersRepository() {
-        return new SimpleAnswersRepository();
+    public IAnswersRepository answersRepository(@Qualifier("squizzesJdbcOperations")
+                                                JdbcOperations jdbcOperations) {
+        return new JdbcAnswersRepository(jdbcOperations);
     }
 
     /**
@@ -38,7 +41,8 @@ public class RepositoryConfig {
      * @return instance of the repository
      */
     @Bean
-    public IRoomsRepository roomsRepository() {
+    public IRoomsRepository roomsRepository(@Qualifier("squizzesJdbcOperations")
+                                            JdbcOperations jdbcOperations) {
         return new SimpleRoomsRepository();
     }
 
@@ -57,8 +61,9 @@ public class RepositoryConfig {
      * @return instance of the repository
      */
     @Bean
-    public IQuestionSetsRepository questionSetsRepository() {
-        return new SimpleQuestionSetsRepository();
+    public IQuestionSetsRepository questionSetsRepository(@Qualifier("squizzesJdbcOperations")
+                                                          JdbcOperations jdbcOperations) {
+        return new JdbcQuestionSetsRepository(jdbcOperations);
     }
 
     /**
