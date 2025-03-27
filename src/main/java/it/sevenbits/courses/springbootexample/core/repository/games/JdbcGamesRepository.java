@@ -48,7 +48,7 @@ public class JdbcGamesRepository implements IGamesRepository {
         jdbcOperations.update(sql,
             game.getId().toString(),
             game.getQuestions().getId().toString(),
-            GameStatus.READY_TO_START
+            GameStatus.READY_TO_START.getName()
         );
         return game;
     }

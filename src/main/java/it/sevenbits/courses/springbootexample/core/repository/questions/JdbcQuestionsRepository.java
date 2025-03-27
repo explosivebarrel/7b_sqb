@@ -21,8 +21,11 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
     private Question generateQuestionWithItsAnswers(UUID id, String content) {
         String sqlLinkTable = "SELECT answerId, isCorrect FROM questionAnswers WHERE questionId = ?";
 
-        List<Pair<UUID, Boolean>> answers = jdbcOperations.query(sqlLinkTable, (rsI, rowNumI) ->
-                Pair.of(UUID.fromString(rsI.getString("answerId")), Boolean.valueOf(rsI.getString("isCorrect")))
+        List<Pair<UUID, Boolean>> answers = jdbcOperations.query(sqlLinkTable, (rs, rowNum) -> {
+//                System.out.println("Query for answer: " + rs);
+                return Pair.of(UUID.fromString(rs.getString("answerId")), Boolean.valueOf(rs.getString("isCorrect")));
+            },
+            id.toString()
         );
 
         UUID correctId = new UUID(0,0);
@@ -67,8 +70,10 @@ public class JdbcQuestionsRepository implements IQuestionsRepository {
         String sqlQuestionsTable = "SELECT id, content FROM questions WHERE id = ?";
 
         return jdbcOperations.queryForObject(sqlQuestionsTable,
-            (rs, rowNumE) ->
-                generateQuestionWithItsAnswers(UUID.fromString(rs.getString("id")), rs.getString("content")),
+            (rs, rowNumE) -> {
+//                System.out.println("Query for question: " + rs);
+                return generateQuestionWithItsAnswers(UUID.fromString(rs.getString("id")), rs.getString("content"));
+            },
             id.toString());
     }
 
