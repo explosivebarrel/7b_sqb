@@ -5,13 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcOperations;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class JdbcGamesRepositoryTest {
+class PostgresDBGamesRepositoryTest {
     private JdbcOperations mockJdbcOperations;
     private IQuestionSetsRepository mockQuestionSetsRepository;
-    private JdbcGamesRepository jdbcGamesRepository;
+    private PostgresDBGamesRepository postgresDBGamesRepository;
 
     @BeforeEach
     public void init() {

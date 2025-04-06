@@ -11,14 +11,14 @@ import java.util.UUID;
  *
  */
 @Repository
-public class JdbcAnswersRepository implements IAnswersRepository {
+public class PostgresDBAnswersRepository implements IAnswersRepository {
     private final JdbcOperations jdbcOperations;
 
     /**
      *
      * @param jdbcOperations jdbcOperations
      */
-    public JdbcAnswersRepository(final JdbcOperations jdbcOperations) {
+    public PostgresDBAnswersRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 

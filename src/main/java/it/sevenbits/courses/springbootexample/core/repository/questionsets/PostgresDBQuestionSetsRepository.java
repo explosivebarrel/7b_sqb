@@ -10,14 +10,14 @@ import java.util.UUID;
 /**
  *
  */
-public class JdbcQuestionSetsRepository implements IQuestionSetsRepository {
+public class PostgresDBQuestionSetsRepository implements IQuestionSetsRepository {
     private final JdbcOperations jdbcOperations;
 
     /**
      *
      * @param jdbcOperations jdbcOperations
      */
-    public JdbcQuestionSetsRepository(final JdbcOperations jdbcOperations) {
+    public PostgresDBQuestionSetsRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 

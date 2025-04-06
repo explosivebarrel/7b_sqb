@@ -1,15 +1,15 @@
 package it.sevenbits.courses.springbootexample.config;
 
 import it.sevenbits.courses.springbootexample.core.repository.answers.IAnswersRepository;
-import it.sevenbits.courses.springbootexample.core.repository.answers.JdbcAnswersRepository;
+import it.sevenbits.courses.springbootexample.core.repository.answers.PostgresDBAnswersRepository;
 import it.sevenbits.courses.springbootexample.core.repository.games.IGamesRepository;
-import it.sevenbits.courses.springbootexample.core.repository.games.JdbcGamesRepository;
+import it.sevenbits.courses.springbootexample.core.repository.games.PostgresDBGamesRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questions.IQuestionsRepository;
-import it.sevenbits.courses.springbootexample.core.repository.questions.JdbcQuestionsRepository;
+import it.sevenbits.courses.springbootexample.core.repository.questions.PostgresDBQuestionsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.questionsets.IQuestionSetsRepository;
-import it.sevenbits.courses.springbootexample.core.repository.questionsets.JdbcQuestionSetsRepository;
+import it.sevenbits.courses.springbootexample.core.repository.questionsets.PostgresDBQuestionSetsRepository;
 import it.sevenbits.courses.springbootexample.core.repository.rooms.IRoomsRepository;
-import it.sevenbits.courses.springbootexample.core.repository.rooms.JdbcRoomsRepository;
+import it.sevenbits.courses.springbootexample.core.repository.rooms.PostgresDBRoomsRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ public class RepositoryConfig {
     @Bean
     public IAnswersRepository answersRepository(@Qualifier("squizzesJdbcOperations")
                                                 final JdbcOperations jdbcOperations) {
-        return new JdbcAnswersRepository(jdbcOperations);
+        return new PostgresDBAnswersRepository(jdbcOperations);
     }
 
     /**
@@ -40,7 +40,7 @@ public class RepositoryConfig {
     @Bean
     public IRoomsRepository roomsRepository(@Qualifier("squizzesJdbcOperations")
                                             final JdbcOperations jdbcOperations) {
-        return new JdbcRoomsRepository(jdbcOperations);
+        return new PostgresDBRoomsRepository(jdbcOperations);
     }
 
     /**
@@ -51,7 +51,7 @@ public class RepositoryConfig {
     @Bean
     public IQuestionsRepository questionsRepository(@Qualifier("squizzesJdbcOperations")
                                                     final JdbcOperations jdbcOperations) {
-        return new JdbcQuestionsRepository(jdbcOperations);
+        return new PostgresDBQuestionsRepository(jdbcOperations);
     }
 
     /**
@@ -62,7 +62,7 @@ public class RepositoryConfig {
     @Bean
     public IQuestionSetsRepository questionSetsRepository(@Qualifier("squizzesJdbcOperations")
                                                           final JdbcOperations jdbcOperations) {
-        return new JdbcQuestionSetsRepository(jdbcOperations);
+        return new PostgresDBQuestionSetsRepository(jdbcOperations);
     }
 
     /**
@@ -76,6 +76,6 @@ public class RepositoryConfig {
                                             @Qualifier("squizzesJdbcOperations")
                                             final JdbcOperations jdbcOperations
     ) {
-        return new JdbcGamesRepository(questionSetsRepository, jdbcOperations);
+        return new PostgresDBGamesRepository(questionSetsRepository, jdbcOperations);
     }
 }

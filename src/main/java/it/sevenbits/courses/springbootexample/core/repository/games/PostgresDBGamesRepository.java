@@ -13,7 +13,7 @@ import java.util.UUID;
  *
  */
 @Repository
-public class JdbcGamesRepository implements IGamesRepository {
+public class PostgresDBGamesRepository implements IGamesRepository {
     private final IQuestionSetsRepository questionSetRepo;
     private final JdbcOperations jdbcOperations;
 
@@ -22,7 +22,7 @@ public class JdbcGamesRepository implements IGamesRepository {
      * @param questionSetRepo questionSetRepo
      * @param jdbcOperations jdbcOperations
      */
-    public JdbcGamesRepository(final IQuestionSetsRepository questionSetRepo, final JdbcOperations jdbcOperations) {
+    public PostgresDBGamesRepository(final IQuestionSetsRepository questionSetRepo, final JdbcOperations jdbcOperations) {
         this.questionSetRepo = questionSetRepo;
         this.jdbcOperations = jdbcOperations;
     }
