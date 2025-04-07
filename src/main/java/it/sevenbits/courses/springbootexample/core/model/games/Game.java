@@ -2,11 +2,10 @@ package it.sevenbits.courses.springbootexample.core.model.games;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.sevenbits.courses.springbootexample.core.model.players.PlayerScore;
 import it.sevenbits.courses.springbootexample.core.model.questionsets.QuestionSet;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.UUID;
+import java.util.*;
 
 /**
  *
@@ -14,7 +13,10 @@ import java.util.UUID;
 public class Game {
     private UUID id;
     private QuestionSet questions;
-    private Iterator<UUID> questionIterator;
+    private int questionIndex;
+    private GameStatus status;
+    private List<PlayerScore> playersScore;
+    private Date createdAt;
 
     /**
      *
@@ -23,21 +25,17 @@ public class Game {
      */
     @JsonCreator
     public Game(@JsonProperty("id") final UUID id,
-                @JsonProperty("questions") final QuestionSet questions) {
+                @JsonProperty("questions") final QuestionSet questions,
+                @JsonProperty("questionNumber") final int questionNumber,
+                @JsonProperty("status") final GameStatus status,
+                @JsonProperty("playersScore") final List<PlayerScore> playersScore,
+                @JsonProperty("createdAt") final Date createdAt) {
         this.id = id;
         this.questions = questions;
-        initQuestionIterator();
-    }
-
-    /**
-     *
-     */
-    private void initQuestionIterator() {
-        if (questions != null && questions.getQuestionIDs() != null) {
-            this.questionIterator = questions.getQuestionIDs().iterator();
-        } else {
-            this.questionIterator = Collections.emptyIterator();
-        }
+        this.questionIndex = questionNumber;
+        this.status = status;
+        this.playersScore = playersScore;
+        this.createdAt = createdAt;
     }
 
     /**
@@ -60,10 +58,31 @@ public class Game {
      *
      * @return rt
      */
-    public Iterator<UUID> getQuestionIterator() {
-        if (questionIterator == null) {
-            initQuestionIterator();
-        }
-        return questionIterator;
+    public int getQuestionIndex() {
+        return questionIndex;
+    }
+
+    /**
+     *
+     * @return rt
+     */
+    public GameStatus getStatus() {
+        return status;
+    }
+
+    /**
+     *
+     * @return rt
+     */
+    public List<PlayerScore> getPlayersScore() {
+        return playersScore;
+    }
+
+    /**
+     *
+     * @return rt
+     */
+    public Date getCreatedAt() {
+        return createdAt;
     }
 }
